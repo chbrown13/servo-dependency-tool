@@ -2,9 +2,11 @@
 #
 # This script parses a Cargo .lock file and extracts the crate names
 # as well as their dependency versions.
+#   NOTE: Must be placed in the same folder as the Cargo.lock file
+#
 #   From our Initial Steps requirement:
-#       "write code that takes a Cargo.lock file (example) file as input and
-#       determines the list of crate names and versions that are dependencies"
+#       "write code that takes a Cargo.lock file as input and determines
+#       the list of crate names and versions that are dependencies"
 
 from os import listdir
 from os import curdir
