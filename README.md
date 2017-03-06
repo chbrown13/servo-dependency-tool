@@ -2,4 +2,6 @@
 
 NC State CSC517: Object-Oriented Design and Development
 
-Bradford Ingersoll, Chris Brown
+<dd>Chris Brown (dcbrow10@ncsu.edu)</dd>
+<dd>Bradford Ingersoll (bingers@ncsu.edu)</dd>
+<dd>Qiufeng Yu (qyu4@ncsu.edu)</dd>
