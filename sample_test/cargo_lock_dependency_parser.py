@@ -13,6 +13,7 @@ from os import curdir
 import re
 
 
+# Object representing a dependency. Each [[package]] within the Cargo.lock file can have >= 0 dependencies
 class Dependency:
 
     def __init__(self):
@@ -20,7 +21,7 @@ class Dependency:
         self.version = ""
         self.source = ""
 
-
+# Object representing a [[package]] within the Cargo.lock file. A Cargo.lock file can have >= packages
 class LockPackage:
 
     def __init__(self):
@@ -29,7 +30,7 @@ class LockPackage:
         self.source = ""
         self.dependencies = []
 
-
+# Method to parse the passed file (a Cargo.lock file)
 def lock_file_parse(fname):
     with open(fname, 'r') as fp:
         lock_package_to_add = LockPackage()  # temporary LockPackage object
@@ -63,12 +64,16 @@ def lock_file_parse(fname):
                     dependency_to_add = Dependency()
 
 
-packages = []
+packages = []  # Array to contain all the packages found within the Cargo.lock file
 
+# This code iterates through all the files in the current directory and calls lock_file_parse
+# when the "Cargo.lock" file is found
 for filename in listdir(curdir):
     if filename == "Cargo.lock":
         lock_file_parse(filename)
 
+# *** This is likely temporary code.
+# It prints out what was parsed to ensure the parsing and the objects are getting the intended information
 for package in packages:
     # print("Package")
     print(package.name, package.version, package.source)
