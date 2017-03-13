@@ -117,4 +117,3 @@ for package in lock_file.packages:
     # print(package.name, package.version, package.source)
     # print("%d dependencies" % len(package.dependencies))
     check_crates.check(package)
-    
