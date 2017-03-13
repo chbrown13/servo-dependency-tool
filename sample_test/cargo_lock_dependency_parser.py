@@ -11,6 +11,7 @@
 from os import listdir
 from os import curdir
 import re
+import check_crates
 
 
 # Object representing the root. A Cargo.lock file will always have one [[root]]
@@ -111,6 +112,9 @@ for filename in listdir(curdir):
 # *** This is temporary code.
 # It prints out what was parsed to ensure the parsing and the objects are getting the intended information
 print(lock_file.root.name, lock_file.root.version)
+check_crates.clone_crates()
 for package in lock_file.packages:
-    print(package.name, package.version, package.source)
-    print("%d dependencies" % len(package.dependencies))
+    # print(package.name, package.version, package.source)
+    # print("%d dependencies" % len(package.dependencies))
+    check_crates.check(package)
+    

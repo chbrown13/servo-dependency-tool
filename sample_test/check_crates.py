@@ -13,13 +13,23 @@ def cleanup():
 	shutil.rmtree(CRATES, ignore_errors=True)
 	os.rmdir(CRATES)
 
+# Update package
+def update(package):
+	print("*****%s needs update*****"%package.name)
+	# TODO: Do dependency upgrade here
+
 # Check for updates for input packages
-def check_update(pack):
-	if pack not in depend.keys():
-		return
+def check_update(package):
+	if package.name not in depend.keys():
+		# Error somewhere
+		print("Package not found")
+		return False
 	else:
 		# Check input versions vs latest versions and update
-		print("Checking updates for '%s'..."%pack)
+		current = package.version
+		latest = depend[package.name][-1]["vers"]
+		print("Checking for '%s' updates... current= %s, latest= %s"%(package.name,current,latest))
+		return current != latest
 
 # Read dependency information from crates.io-index file and store in dict
 def read_file(path):
@@ -39,8 +49,9 @@ def check_folder(name, path):
 	return None
 
 # Check if a package exists in crates.io-index
-def check_package(pack):
+def check_package(package):
 	file = None
+	pack = package.name
 	if len(pack) > 3:
 		split = [pack[i:i+2] for i in range(0, len(pack), 2)]
 		path = os.path.join(CRATES,split[0])
@@ -66,7 +77,7 @@ def check_package(pack):
 		print("Package '%s' Not Found"%pack)
 		return
 	else:
-		print("Found package '%s'"%pack)
+		# print("Found package '%s'"%pack)
 		return file
 
 def clone_crates():
@@ -77,8 +88,8 @@ def clone_crates():
 		# TODO: pull latest version
 		repo = Repo(CRATES)
 
-clone_crates()
-for p in packages:
+def check(p):
 	f = check_package(p)
 	read_file(f)
-	check_update(p)
+	if check_update(p):
+		update(p)
