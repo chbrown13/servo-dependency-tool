@@ -19,7 +19,7 @@ def check_update(pack):
 		return
 	else:
 		# Check input versions vs latest versions and update
-		print "Checking updates for '%s'..."%pack
+		print("Checking updates for '%s'..."%pack)
 
 # Read dependency information from crates.io-index file and store in dict
 def read_file(path):
@@ -63,10 +63,10 @@ def check_package(pack):
 			file = check_folder(pack,os.path.join(CRATES,str(len(pack))))
 
 	if file is None:
-		print "Package '%s' Not Found" % pack
+		print("Package '%s' Not Found"%pack)
 		return
 	else:
-		print "Found package '%s'" % pack
+		print("Found package '%s'"%pack)
 		return file
 
 def clone_crates():
