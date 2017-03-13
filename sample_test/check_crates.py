@@ -85,6 +85,7 @@ def check_package(package):
 
 def clone_crates():
 	try:
+		print("Cloning crates.io-index repository...(This may take a while)")
 		repo = Repo.clone_from("https://github.com/rust-lang/crates.io-index.git", CRATES)	
 	except git.exc.GitCommandError:
 		# crates.io-index repo already exists
