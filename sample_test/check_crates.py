@@ -1,7 +1,7 @@
 from git import Repo, Remote
 import git
 import os
-import shutil
+import platform
 import json
 
 CRATES = "crates.io-index"
@@ -10,8 +10,11 @@ depend = {}
 
 # Delete repo and files when done
 def cleanup():
-	shutil.rmtree(CRATES, ignore_errors=True)
-	os.rmdir(CRATES)
+	if platform.system() == "Windows":
+		rm = 'rmdir /S /Q "%s"'%CRATES
+	else:
+		rm = "rm -rf %s"%CRATES
+	os.system(rm)
 
 # Update package
 def update(package):
