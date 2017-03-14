@@ -102,8 +102,12 @@ def lock_file_parse(fname):
 
 def run_cargo_update(package_name):
     print("Running update for %s" % package_name)
-    cargo_bin_path = os.path.expanduser('~/.cargo/bin/cargo')
-    args = [cargo_bin_path, 'update', '-p', package_name]
+    if os.path.isfile('mach'):  # Check if this is servo root directory (servo users mach to upgrade)
+        mach_path = './mach'
+        args = [mach_path, 'cargo-update', '-p', package_name]
+    else:  # Otherwise use default cargo update command
+        cargo_bin_path = os.path.expanduser('~/.cargo/bin/cargo')
+        args = [cargo_bin_path, 'update', '-p', package_name]
     p = subprocess.Popen(args, stdout=subprocess.PIPE)
     print(p.stdout.read().decode('ascii'))
 
