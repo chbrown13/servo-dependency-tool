@@ -8,9 +8,9 @@
 #       "write code that takes a Cargo.lock file as input and determines
 #       the list of crate names and versions that are dependencies"
 
-from os import listdir
-from os import curdir
+import os
 import re
+import subprocess
 import check_crates
 
 
@@ -38,6 +38,7 @@ class LockPackage:
     def __init__(self):
         self.name = ""
         self.version = ""
+        self.upgrade_available = False
         self.source = ""
         self.dependencies = []
 
@@ -99,13 +100,21 @@ def lock_file_parse(fname):
                         dependency_to_add = LockDependency()
 
 
+def run_cargo_update(package_name):
+    print("Running update for %s" % package_name)
+    cargo_bin_path = os.path.expanduser('~/.cargo/bin/cargo')
+    args = [cargo_bin_path, 'update', '-p', package_name]
+    p = subprocess.Popen(args, stdout=subprocess.PIPE)
+    print(p.stdout.read().decode('ascii'))
+
+
 # Main
 
 lock_file = LockFile()
 
 # This code iterates through all the files in the current directory and calls lock_file_parse
 # when the "Cargo.lock" file is found
-for filename in listdir(curdir):
+for filename in os.listdir(os.curdir):
     if filename == "Cargo.lock":
         lock_file_parse(filename)
 
@@ -117,3 +126,5 @@ for package in lock_file.packages:
     # print(package.name, package.version, package.source)
     # print("%d dependencies" % len(package.dependencies))
     check_crates.check(package)
+    if package.upgrade_available:
+        run_cargo_update(package.name)
