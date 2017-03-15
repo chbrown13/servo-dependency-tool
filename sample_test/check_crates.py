@@ -16,22 +16,17 @@ def cleanup():
 		rm = "rm -rf %s"%CRATES
 	os.system(rm)
 
-# Update package
-def update(package):
-	print("*****%s needs update*****"%package.name)
-	# TODO: Do dependency upgrade here
-
-# Check for updates for input packages
-def check_update(package):
+# Check for upgrades for input packages
+def check_upgrade(package):
 	if package.name not in depend.keys():
 		# Error somewhere
 		print("Package not found")
 		return False
 	else:
-		# Check input versions vs latest versions and update
+		# Check input version vs latest version
 		current = package.version
 		latest = depend[package.name][-1]["vers"]
-		print("Checking for '%s' updates... current= %s, latest= %s"%(package.name,current,latest))
+		print("Checking for '%s' upgrades... current= %s, latest= %s"%(package.name,current,latest))
 		return current != latest
 
 # Read dependency information from crates.io-index file and store in dict
@@ -95,5 +90,4 @@ def clone_crates():
 def check(p):
 	f = check_package(p)
 	read_file(f)
-	if check_update(p):
-		update(p)
+	p.upgrade_available = check_upgrade(p)
