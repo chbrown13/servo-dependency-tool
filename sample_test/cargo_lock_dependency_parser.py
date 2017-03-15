@@ -136,11 +136,10 @@ for package_name in lock_file.packages:
 shutil.rmtree('crates.io-index')
 
 for root, dirs, files in os.walk(os.curdir):
-    if "crates.io-index" in dirs:
-        dirs.remove("crates.io-index")  # don't visit CVS directories
-        for filename in files:
-            if filename.lower() == "cargo.toml":
-                cargo_toml_dependency_parser.toml_file_parse(filename, lock_file)
+    for filename in files:
+        if filename.lower() == "cargo.toml":
+            print(os.path.join(root, filename))
+            cargo_toml_dependency_parser.toml_file_parse(os.path.join(root, filename), lock_file)
 
 for package_name in lock_file.packages:
     if lock_file.packages[package_name].upgrade_available:
