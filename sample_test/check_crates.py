@@ -27,6 +27,7 @@ def check_upgrade(package):
 		current = package.version
 		latest = depend[package.name][-1]["vers"]
 		print("Checking for '%s' upgrades... current= %s, latest= %s"%(package.name,current,latest))
+        package.version = latest
 		return current != latest
 
 # Read dependency information from crates.io-index file and store in dict
