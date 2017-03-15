@@ -27,7 +27,7 @@ def check_upgrade(package):
 		current = package.version
 		latest = depend[package.name][-1]["vers"]
 		print("Checking for '%s' upgrades... current= %s, latest= %s"%(package.name,current,latest))
-        package.version = latest
+		package.version = latest
 		return current != latest
 
 # Read dependency information from crates.io-index file and store in dict
@@ -65,7 +65,7 @@ def check_package(package):
 			try:
 				path = os.path.join(path,split[i])
 			except IndexError:
-				break				
+				break
 	else:
 		if len(pack) == 3:
 			file = check_folder(pack,os.path.join(CRATES,"3",pack[0]))
@@ -82,7 +82,7 @@ def check_package(package):
 def clone_crates():
 	try:
 		print("Cloning crates.io-index repository...(This may take a while)")
-		repo = Repo.clone_from("https://github.com/rust-lang/crates.io-index.git", CRATES)	
+		repo = Repo.clone_from("https://github.com/rust-lang/crates.io-index.git", CRATES)
 	except git.exc.GitCommandError:
 		# crates.io-index repo already exists
 		# TODO: pull latest version
