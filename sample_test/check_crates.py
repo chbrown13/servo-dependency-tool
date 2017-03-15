@@ -5,7 +5,7 @@ import platform
 import json
 
 CRATES = "crates.io-index"
-packages = ["winapi-build","log","z3", "tpst"]  # TODO: list of LockPackage objects from cargo_lock_dependency_parse.py
+packages = ["winapi-build", "log", "z3", "tpst"]  # TODO: LockPackage objects from cargo_lock_dependency_parse.py
 depend = {}
 
 
@@ -28,7 +28,7 @@ def check_upgrade(package):
         # Check input version vs latest version
         current = package.version
         latest = depend[package.name][-1]["vers"]
-        print("Checking for '%s' upgrades... current= %s, latest= %s"%(package.name,current,latest))
+        print("Checking for '%s' upgrades... current= %s, latest= %s" % (package.name, current, latest))
         package.version = latest
         return current != latest
 
@@ -73,9 +73,9 @@ def check_package(package):
                 break
     else:
         if len(pack) == 3:
-            file = check_folder(pack,os.path.join(CRATES, "3", pack[0]))
+            file = check_folder(pack, os.path.join(CRATES, "3", pack[0]))
         else:
-            file = check_folder(pack,os.path.join(CRATES, str(len(pack))))
+            file = check_folder(pack, os.path.join(CRATES, str(len(pack))))
 
     if file is None:
         print("Package '%s' Not Found" % pack)
