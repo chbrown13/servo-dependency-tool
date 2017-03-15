@@ -1,16 +1,16 @@
 import git
+from git import Repo, Remote
 
 
-def push(path):
-    repo = git.Repo(path)
+def commit(path):
+    repo = Repo(path)
     print(repo.git.status())
-    # checkout and track a remote branch
-    print(repo.git.checkout("master"))
-    # add a file
     print(repo.git.add("."))
-    # commit
     print(repo.git.commit(m='my commit message'))
-    # now we are one commit ahead
-    # print(repo.git.status())
-    # now push
     print(repo.git.push())
+
+
+def pull(path):
+    repo = git.Repo(path)
+    origin = repo.remotes.origin
+    origin.pull()
