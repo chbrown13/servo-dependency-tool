@@ -11,7 +11,9 @@
 import os
 import re
 import subprocess
+import shutil
 import check_crates
+import cargo_toml_dependency_parser
 
 
 # Object representing the root. A Cargo.lock file will always have one [[root]]
@@ -48,7 +50,7 @@ class LockFile:
 
     def __init__(self):
         self.root = LockRoot()
-        self.packages = []
+        self.packages = {}  # dictionary
 
 
 # Method to parse the passed file (a Cargo.lock file)
@@ -79,7 +81,7 @@ def lock_file_parse(fname):
                     if line.strip() == "[[package]]":
                         # If lock_package_to_add has data, add to list and then reset
                         if lock_package_to_add.name != "":
-                            lock_file.packages.append(lock_package_to_add)
+                            lock_file.packages[lock_package_to_add.name] = lock_package_to_add
                             lock_package_to_add = LockPackage()
                     elif line.strip().startswith('name'):
                         lock_package_to_add.name = re.findall(r'"(.*?)"', line)[0]
@@ -88,7 +90,7 @@ def lock_file_parse(fname):
                     elif line.strip().startswith('source'):
                         lock_package_to_add.source = re.findall(r'"(.*?)"', line)[0]
                     elif line.strip().startswith('[metadata]'):
-                        lock_file.packages.append(lock_package_to_add)  # add the last entry before breaking out
+                        lock_file.packages[lock_package_to_add.name] = lock_package_to_add  # add the last entry
                         break
                     elif not in_root and line.strip().startswith('"'):  # lines that start with " are dependencies
                         dependency_string = re.findall(r'"(.*?)"', line)[0].split(' ')
@@ -126,9 +128,20 @@ for filename in os.listdir(os.curdir):
 # It prints out what was parsed to ensure the parsing and the objects are getting the intended information
 print(lock_file.root.name, lock_file.root.version)
 check_crates.clone_crates()
-for package in lock_file.packages:
+for package_name in lock_file.packages:
     # print(package.name, package.version, package.source)
     # print("%d dependencies" % len(package.dependencies))
-    check_crates.check(package)
-    if package.upgrade_available:
-        run_cargo_update(package.name)
+    check_crates.check(lock_file.packages[package_name])
+
+shutil.rmtree('crates.io-index')
+
+for root, dirs, files in os.walk(os.curdir):
+    if "crates.io-index" in dirs:
+        dirs.remove("crates.io-index")  # don't visit CVS directories
+        for filename in files:
+            if filename.lower() == "cargo.toml":
+                cargo_toml_dependency_parser.toml_file_parse(filename, lock_file)
+
+for package_name in lock_file.packages:
+    if lock_file.packages[package_name].upgrade_available:
+        run_cargo_update(package_name)
