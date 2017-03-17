@@ -7,16 +7,31 @@ import cargo_toml_updater
 import crates_io_checker
 
 
-def run_cargo_update(pkg_name):
-    print("Running update for %s" % pkg_name)
-    if os.path.isfile('mach'):  # Check if this is servo root directory (servo users mach to upgrade)
+def run_cargo_update(pkg):
+    print("Running update for %s" % pkg.name)
+    if os.path.isfile('mach'):
         mach_path = './mach'
-        args = [mach_path, 'cargo-update', '-p', pkg_name]
+        args = [mach_path, 'cargo-update', '-p', pkg.name]
     else:  # Otherwise use default cargo update command
         cargo_bin_path = os.path.expanduser('~/.cargo/bin/cargo')
-        args = [cargo_bin_path, 'update', '-p', pkg_name]
-    p = subprocess.Popen(args, stdout=subprocess.PIPE)
-    print(p.stdout.read().decode('ascii'))
+        args = [cargo_bin_path, 'update', '-p', pkg.name]
+    cmd_out = None
+    cmd_err = None
+    cmd_out, cmd_err = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+    print(args)
+    print(cmd_err.decode('utf-8'))
+    if 'is ambiguous.' in cmd_err.decode('utf-8'):  # If failure due to ambiguity, use precise version
+        if os.path.isfile('mach'):
+            mach_path = './mach'
+            args = [mach_path, 'cargo-update', '-p', (pkg.name + ':' + pkg.version)]
+        else:  # Otherwise use default cargo update command
+            cargo_bin_path = os.path.expanduser('~/.cargo/bin/cargo')
+            args = [cargo_bin_path, 'update', '-p', (pkg.name + ':' + pkg.version)]
+        cmd_out = None
+        cmd_err = None
+        cmd_out, cmd_err = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+        print(args)
+        print(cmd_err.decode('utf-8'))
 
 
 # Main
@@ -50,8 +65,11 @@ for root, dirs, files in os.walk(os.curdir):
             toml_file_path = os.path.join(root, filename)
             cargo_toml_updater.toml_file_update(toml_file_path, lock_file)
 
+# "Delete" Cargo.lock to avoid conflicts (rename to Cargo.lock.bak)
+os.rename('Cargo.lock', 'Cargo.lock.bak')
+
 # Loop through the packages again and call run_cargo_update
 # to run the appropriate update command.
 for package_name in lock_file.packages:
     if lock_file.packages[package_name].upgrade_available:
-        run_cargo_update(package_name)
+        run_cargo_update(lock_file.packages[package_name])
