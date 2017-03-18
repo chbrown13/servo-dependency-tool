@@ -1,14 +1,17 @@
 from git import Repo, Remote
 from github3 import login
-import os
-import shutil
 import git
 import traceback
 
 
-class sync_repo:
-    def push(path):
+class SyncRepo:
+    def create_new_branch(path, branch_name):
+        repo = Repo(path)
+        new_branch = repo.create_head(branch_name)
+        new_branch.commit
+        repo.git.push("origin", branch_name)
 
+    def push(self, path):
         try:
             repo = Repo(path)
             print(repo.git.status())
@@ -19,8 +22,7 @@ class sync_repo:
         except Exception:
             traceback.print_exc()
 
-    def pull(path):
-
+    def pull(self, path):
         try:
             repo = git.Repo(path)
             origin = repo.remotes.origin
@@ -35,7 +37,7 @@ class sync_repo:
 
     # push(PATH)
 
-    def pull_request(username, password, title, base, head, body=None):
+    def pull_request(self, username, password, title, base, head, body=None):
         # Login to the forked repo
         gh = login(username, password)
         # Create a Repository instance of servo (with owner Servo and repo name servo)
