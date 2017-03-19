@@ -1,6 +1,7 @@
 # Cargo Upgrade Service Project
 
 Issue Tracker: https://github.com/servo/servo/issues/15600
+
 Dependency Tool Wiki: https://github.com/servo/servo/wiki/Cargo-upgrade-service-project
 
 NC State CSC517: Object-Oriented Design and Development
