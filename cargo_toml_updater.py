@@ -15,7 +15,12 @@ def toml_file_update(fname, lock_file):
         fp.truncate()
         for line in lines:
             if line.strip():
-                if in_dependencies:
+                if line.strip().startswith('['):
+                    if line.strip().endswith('dependencies]'):
+                        in_dependencies = True
+                    else
+                        in_dependencies = False
+                elif in_dependencies:
                     dependency_name = line.split(' ')[0]
                     if dependency_name in lock_file.packages:  # Check if package exists
                         if lock_file.packages[dependency_name].upgrade_available:  # Check if upgrade was found
@@ -25,10 +30,6 @@ def toml_file_update(fname, lock_file):
                             elif 'version = "' in line:
                                 version_string = 'version = "' + lock_file.packages[dependency_name].version + '"'
                                 line = re.sub(r'version = "(.*?)"', version_string, line)
-                elif line.strip().endswith('dependencies]'):
-                    in_dependencies = True
-                elif line.strip().startswith('['):  # There can be sections between dependency sections
-                    in_dependencies = False
                 else:
                     in_dependencies = False
             fp.write(line)
