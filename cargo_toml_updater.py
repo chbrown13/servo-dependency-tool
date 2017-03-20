@@ -18,7 +18,7 @@ def toml_file_update(fname, lock_file):
                 if line.strip().startswith('['):
                     if line.strip().endswith('dependencies]'):
                         in_dependencies = True
-                    else
+                    else:
                         in_dependencies = False
                 elif in_dependencies:
                     dependency_name = line.split(' ')[0]
