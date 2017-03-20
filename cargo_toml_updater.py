@@ -27,6 +27,8 @@ def toml_file_update(fname, lock_file):
                                 line = re.sub(r'version = "(.*?)"', version_string, line)
                 elif line.strip().endswith('dependencies]'):
                     in_dependencies = True
+                elif line.strip().startswith('['):  # There can be sections between dependency sections
+                    in_dependencies = False
                 else:
                     in_dependencies = False
             fp.write(line)
