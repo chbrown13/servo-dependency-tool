@@ -89,3 +89,4 @@ for package_name in lock_file.packages:
         run_cargo_update(lock_file.packages[package_name])
 
 # Push the updates
+repo_management.push(git_path, branch_name, 'Updated dependencies')

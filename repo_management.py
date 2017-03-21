@@ -2,8 +2,6 @@ from git import Repo, Remote
 from github3 import login
 import git
 import traceback
-import os
-import datetime
 
 
 # Function that takes the local git clone directory path and the new branch name as parameters
