@@ -17,12 +17,13 @@ def create_new_branch(path, branch_name):
 def push(path, branch_name, message):
     try:
         repo = Repo(path)
-        print('Currently on %s' % repo.head.ref)
+        print('Currently on branch: %s' % repo.head.ref)
         repo.git.checkout(branch_name)
-        print('Now on %s' % repo.head.ref)
+        print('Switched to branch: %s' % repo.head.ref)
         print(repo.git.add("."))
         print(repo.git.commit(m=message))
         repo.git.push("origin", branch_name)
+        print('')
         print(repo.git.status())
     except Exception:
         traceback.print_exc()
