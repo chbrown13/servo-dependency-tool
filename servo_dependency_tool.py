@@ -11,7 +11,7 @@ import repo_management
 
 def run_cargo_update(pkg):
     print("Running update for %s" % pkg.name)
-    if git_path.isfile('mach'):
+    if os.path.isfile(os.path.join(git_path, 'mach')):
         mach_path = './mach'
         args = [mach_path, 'cargo-update', '-p', pkg.name]
     else:  # Otherwise use default cargo update command
@@ -24,7 +24,7 @@ def run_cargo_update(pkg):
     cmd_out, cmd_err = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
     print(cmd_err.decode('utf-8'))
     if 'is ambiguous.' in cmd_err.decode('utf-8'):  # If failure due to ambiguity, use precise version
-        if git_path.isfile('mach'):
+        if os.path.isfile(os.path.join(git_path, 'mach')):
             mach_path = './mach'
             args = [mach_path, 'cargo-update', '-p', (pkg.name + ':' + pkg.version)]
         else:  # Otherwise use default cargo update command
