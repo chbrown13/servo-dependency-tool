@@ -82,7 +82,7 @@ for root, dirs, files in os.walk(git_path):
             cargo_toml_updater.toml_file_update(toml_file_path, lock_file)
 
 # "Delete" Cargo.lock to avoid conflicts (rename to Cargo.lock.bak)
-os.rename('Cargo.lock', 'Cargo.lock.bak')
+os.rename(os.path.join(git_path, 'Cargo.lock'), os.path.join(git_path, 'Cargo.lock.bak'))
 
 # Loop through the packages again and call run_cargo_update
 # to run the appropriate update command.
