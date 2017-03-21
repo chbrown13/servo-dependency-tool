@@ -15,6 +15,7 @@ def run_cargo_update(pkg):
     else:  # Otherwise use default cargo update command
         cargo_bin_path = os.path.expanduser('~/.cargo/bin/cargo')
         args = [cargo_bin_path, 'update', '-p', pkg.name]
+    print('This may take a moment...')
     print(args)
     cmd_out = None
     cmd_err = None
@@ -28,6 +29,7 @@ def run_cargo_update(pkg):
             cargo_bin_path = os.path.expanduser('~/.cargo/bin/cargo')
             args = [cargo_bin_path, 'update', '-p', (pkg.name + ':' + pkg.version)]
         print('Specifying version %s...' % pkg.version)
+        print('This may take a moment...')
         print(args)
         cmd_out = None
         cmd_err = None
