@@ -20,7 +20,7 @@ def push(path, branch_name, message):
         repo.git.checkout('origin/' + branch_name)
         print(repo.git.add("."))
         print(repo.git.commit(m=message))
-        repo.git.push()
+        repo.git.push("origin", branch_name)
         print(repo.git.status())
     except Exception:
         traceback.print_exc()
