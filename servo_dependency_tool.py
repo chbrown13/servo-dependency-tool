@@ -1,3 +1,4 @@
+import datetime
 import os
 import shutil
 import subprocess
@@ -5,6 +6,7 @@ import subprocess
 import cargo_lock_parser
 import cargo_toml_updater
 import crates_io_checker
+import repo_management
 
 
 def run_cargo_update(pkg):
@@ -38,6 +40,14 @@ def run_cargo_update(pkg):
 
 
 # Main
+
+# Perform a "git pull" on the directory above
+git_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+print('Performing git pull inside "%s"' % git_path)
+repo_management.pull(git_path)
+
+# Create a new branch before making any updates
+repo_management.create_new_branch('..', datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S_crate_update"))
 
 # This code iterates through all the files in the current directory and calls lock_file_parse
 # when the "Cargo.lock" file is found
@@ -76,3 +86,5 @@ os.rename('Cargo.lock', 'Cargo.lock.bak')
 for package_name in lock_file.packages:
     if lock_file.packages[package_name].upgrade_available:
         run_cargo_update(lock_file.packages[package_name])
+
+# Push the updates

@@ -2,6 +2,8 @@ from git import Repo, Remote
 from github3 import login
 import git
 import traceback
+import os
+import datetime
 
 
 # Function that takes the local git clone directory path and the new branch name as parameters
@@ -33,7 +35,7 @@ def pull(path):
         origin = repo.remotes.origin
         # only pulls the master branch
         s = origin.pull("master")
-        print(s)
+        print(repo.git.status())
     except Exception:
         traceback.print_exc()
 
@@ -50,3 +52,5 @@ def pull_request(username, password, title, base, head, body=None):
     # :param str base: (required), The branch of the servo repo which you want the changes pulled into. e.g., 'master'
     # :param str head: (required), The place where your changes are implemented. e.g. 'qiufengyu21:master'
     # :param str body: (optional), The contents of the pull request.
+
+push('..', 'Testing sync repo')
