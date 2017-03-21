@@ -17,7 +17,7 @@ def create_new_branch(path, branch_name):
 def push(path, branch, message):
     try:
         repo = Repo(path)
-        repo.git.checkout(branch)
+        repo.git.checkout(('origin/' + branch), b=branch)
         print(repo.git.add("."))
         print(repo.git.commit(m=message))
         print(repo.git.push())
