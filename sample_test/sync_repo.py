@@ -16,11 +16,11 @@ def create_new_branch(path, branch_name):
 
 
 # Function that pushes changes to the master branch of the remote repository.
-def push(path, message):
+def push(path, branch, message):
     try:
         repo = Repo(path)
+        repo.git.checkout(branch)
         print(repo.git.status())
-        repo.git.checkout("master")
         print(repo.git.add("."))
         print(repo.git.commit(m=message))
         print(repo.git.push())
@@ -53,4 +53,4 @@ def pull_request(username, password, title, base, head, body=None):
     # :param str head: (required), The place where your changes are implemented. e.g. 'qiufengyu21:master'
     # :param str body: (optional), The contents of the pull request.
 
-push('..', 'Testing sync repo')
+push('..', '2017_03_21_11_08_52_crate_update', 'Testing sync repo2')

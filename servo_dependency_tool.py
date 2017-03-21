@@ -47,7 +47,8 @@ print('Performing git pull inside "%s"' % git_path)
 repo_management.pull(git_path)
 
 # Create a new branch before making any updates
-repo_management.create_new_branch('..', datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S_crate_update"))
+branch_name = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S_crate_update")
+repo_management.create_new_branch('..', branch_name)
 
 # This code iterates through all the files in the current directory and calls lock_file_parse
 # when the "Cargo.lock" file is found
