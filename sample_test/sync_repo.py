@@ -14,13 +14,13 @@ def create_new_branch(path, branch_name):
 
 
 # Function that pushes changes to the master branch of the remote repository.
-def push(path):
+def push(path, message):
     try:
         repo = Repo(path)
         print(repo.git.status())
         repo.git.checkout("master")
         print(repo.git.add("."))
-        print(repo.git.commit(m='version update'))
+        print(repo.git.commit(m=message))
         print(repo.git.push())
     except Exception:
         traceback.print_exc()
