@@ -50,6 +50,17 @@ repo_management.pull(git_path)
 branch_name = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S_crate_update")
 repo_management.create_new_branch('..', branch_name)
 
+# Edit .gitignore to add this servo-dependency-tool directory
+with open(os.path.join(git_path, '.gitignore'), "r") as f:
+    tool_ignored = False
+    for line in f:
+        if line == 'servo-dependency-tool/':
+            tool_ignored = True
+if not tool_ignored:
+    with open(os.path.join(git_path, '.gitignore'), "a") as f:
+        f.write('servo-dependency-tool/')
+
+
 # This code iterates through all the files in the current directory and calls lock_file_parse
 # when the "Cargo.lock" file is found
 for filename in os.listdir(git_path):
