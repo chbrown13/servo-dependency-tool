@@ -54,7 +54,7 @@ repo_management.create_new_branch('..', branch_name)
 # when the "Cargo.lock" file is found
 for filename in os.listdir(git_path):
     if filename == "Cargo.lock":
-        lock_file = cargo_lock_parser.lock_file_parse(filename)
+        lock_file = cargo_lock_parser.lock_file_parse(os.path.join(git_path, filename))
 
 # *** This is temporary code.
 # It prints out what was parsed to ensure the parsing and the objects are getting the intended information
