@@ -58,8 +58,8 @@ with open(os.path.join(git_path, '.gitignore'), "r") as f:
             tool_ignored = True
 if not tool_ignored:
     with open(os.path.join(git_path, '.gitignore'), "a") as f:
-        f.write('')
-        f.write('# Servo Dependency Tool')
+        f.write('\n')
+        f.write('# Servo Dependency Tool\n')
         f.write('servo-dependency-tool/')
 
 
