@@ -58,6 +58,8 @@ with open(os.path.join(git_path, '.gitignore'), "r") as f:
             tool_ignored = True
 if not tool_ignored:
     with open(os.path.join(git_path, '.gitignore'), "a") as f:
+        f.write('')
+        f.write('# Servo Dependency Tool')
         f.write('servo-dependency-tool/')
 
 
@@ -101,5 +103,8 @@ for package_name in lock_file.packages:
     if lock_file.packages[package_name].upgrade_available:
         run_cargo_update(lock_file.packages[package_name])
 
-# Push the updates
+# Push the updates to origin/branch_name
 repo_management.push(git_path, branch_name, 'Updated dependencies')
+
+# Pull request on master
+
