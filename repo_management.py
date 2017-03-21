@@ -13,11 +13,11 @@ def create_new_branch(path, branch_name):
     repo.git.push("origin", branch_name)
 
 
-# Function that pushes changes to the master branch of the remote repository.
-def push(path, branch, message):
+# Function that pushes changes to the current branch of the remote repository (should be the newly created branch).
+def push(path, message):
     try:
         repo = Repo(path)
-        repo.git.checkout(('origin/' + branch), b=branch)
+        # repo.git.checkout(('origin/' + branch), b=branch)
         print(repo.git.add("."))
         print(repo.git.commit(m=message))
         print(repo.git.push())
