@@ -52,7 +52,7 @@ repo_management.create_new_branch('..', branch_name)
 
 # This code iterates through all the files in the current directory and calls lock_file_parse
 # when the "Cargo.lock" file is found
-for filename in os.listdir(os.curdir):
+for filename in os.listdir(git_path):
     if filename == "Cargo.lock":
         lock_file = cargo_lock_parser.lock_file_parse(filename)
 
@@ -73,7 +73,9 @@ shutil.rmtree('crates.io-index')
 # Loop through directory tree
 # For each instance of Cargo.toml, call toml_file_update to update
 # the version numbers for each dependency
-for root, dirs, files in os.walk(os.curdir):
+for root, dirs, files in os.walk(git_path):
+    if 'servo-dependency-tool' in dirs:
+        dirs.remove('servo-dependency-tool')  # Don't visit this tool's directory
     for filename in files:
         if filename.lower() == "cargo.toml":
             toml_file_path = os.path.join(root, filename)
