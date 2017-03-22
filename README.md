@@ -7,6 +7,7 @@ Qiufeng Yu (qyu4@ncsu.edu)
 
 The **Servo Dependency Tool** is a set of python scripts that automatically upgrades [Cargo](http://doc.crates.io/index.html) dependencies for the Servo web browser engine (Github page: https://github.com/servo/servo).
 
+### Video:
 [![Demo Video](https://img.youtube.com/vi/-xS-6JY2o_o/0.jpg)](https://www.youtube.com/watch?v=-xS-6JY2o_o)
 
 ## Background Information
