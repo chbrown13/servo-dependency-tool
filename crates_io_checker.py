@@ -39,8 +39,9 @@ def read_file(path):
         return
     filename = os.path.basename(path)
     d = []
-    for line in open(path, 'r'):
-        d.append(json.loads(line))
+    with open(path, 'r') as f:
+        for line in f:
+            d.append(json.loads(line))
     depend[filename] = d
 
 
