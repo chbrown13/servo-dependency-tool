@@ -1,0 +1,25 @@
+[package]
+name = "cargo-toml"
+authors = ["Q",
+           "Bradford",
+           "Chris"]
+
+version = "2.3"
+
+description = "This is a test cargo.toml file"
+readme = "README.md"
+keywords = ["cargo", "cargo-subcommand", "cli", "dependencies", "crates"]
+license = ""
+
+documentation = "https://github.com/chbrown13/servo-dependency-tool"
+homepage = "https://github.com/chbrown13/servo-dependency-tool"
+repository = "https://github.com/chbrown13/servo-dependency-tool"
+
+[[bin]]
+name = "cargo-list"
+path = "path/to/bin"
+
+[dependencies]
+servo = "0.0.0"
+toml = "0.0"
+rustc-serialize = "0"
