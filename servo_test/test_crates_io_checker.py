@@ -12,7 +12,7 @@ class TestCratesIOChecker(unittest.TestCase):
 		self.path = path + "/servo_test/"
 
 		self.package = LockPackage()
-		self.package.name = "no_package"
+		self.package.name = "unittest"
 		self.package.version = "1.0"
 		self.package.source = "src"
 
@@ -45,3 +45,15 @@ class TestCratesIOChecker(unittest.TestCase):
 	def test_check_folder(self):
 		self.assertIsNone(crates.check_folder("test.txt",self.path))
 		self.assertEqual(os.path.join(self.path,"test_crates_io_checker.py"),crates.check_folder("test_crates_io_checker.py",self.path))
+
+	def test_check_package(self):
+		test = LockPackage()
+		test.name = "testing"
+		self.assertIsNotNone(crates.check_package(test))
+		self.assertIsNone(crates.check_package(self.package))
+
+	def test_check(self):
+		crates.check(self.package1)
+		self.assertTrue(self.package1.upgrade_available)
+		crates.check(self.package2)
+		self.assertFalse(self.package2.upgrade_available)

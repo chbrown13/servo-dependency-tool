@@ -47,9 +47,12 @@ def read_file(path):
 
 # Check if file is in the current path
 def check_folder(name, path):
-    if name in os.listdir(path):
-        file = os.path.join(path, name)
-        return file
+    try:
+        if name in os.listdir(path):
+            file = os.path.join(path, name)
+            return file
+    except FileNotFoundError:
+        return None
     return None
 
 
