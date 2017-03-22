@@ -1,48 +1,26 @@
+# Servo Dependency Tool
+#
+# Authors:
+#   Chris Brown (dcbrow10@ncsu.edu)
+#   Bradford Ingersoll (bingers@ncsu.edu)
+#   Qiufeng Yu (qyu4@ncsu.edu)
+
 import datetime
 import getpass
 import os
 import shutil
-import subprocess
 
 import cargo_lock_parser
 import cargo_toml_updater
 import crates_io_checker
 import repo_management
+import run_cargo_update
 
-
-def run_cargo_update(pkg):
-    print("Running update for %s" % pkg.name)
-    if os.path.isfile(os.path.join(git_path, 'mach')):
-        mach_path = git_path + '/mach'
-        args = [mach_path, 'cargo-update', '-p', pkg.name]
-    else:  # Otherwise use default cargo update command
-        cargo_bin_path = os.path.expanduser('~/.cargo/bin/cargo')
-        args = [cargo_bin_path, 'update', '-p', pkg.name]
-    print('This may take a moment...')
-    print(args)
-    cmd_out = None
-    cmd_err = None
-    cmd_out, cmd_err = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-    print(cmd_err.decode('utf-8'))
-    if 'is ambiguous.' in cmd_err.decode('utf-8'):  # If failure due to ambiguity, use precise version
-        if os.path.isfile(os.path.join(git_path, 'mach')):
-            mach_path = git_path + '/mach'
-            args = [mach_path, 'cargo-update', '-p', (pkg.name + ':' + pkg.version)]
-        else:  # Otherwise use default cargo update command
-            cargo_bin_path = os.path.expanduser('~/.cargo/bin/cargo')
-            args = [cargo_bin_path, 'update', '-p', (pkg.name + ':' + pkg.version)]
-        print('Specifying version %s...' % pkg.version)
-        print('This may take a moment...')
-        print(args)
-        cmd_out = None
-        cmd_err = None
-        cmd_out, cmd_err = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-        print(cmd_err.decode('utf-8'))
-
-
+#
 # Main
+#
 
-# Perform a "git pull" on the directory above
+# Perform a "git pull" on the parent directory
 git_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 print('Performing git pull inside "%s"' % git_path)
 repo_management.pull(git_path)
@@ -62,7 +40,6 @@ if not tool_ignored:
         f.write('\n')
         f.write('# Servo Dependency Tool\n')
         f.write('servo-dependency-tool/')
-
 
 # This code iterates through all the files in the current directory and calls lock_file_parse
 # when the "Cargo.lock" file is found
@@ -102,7 +79,7 @@ os.rename(os.path.join(git_path, 'Cargo.lock'), os.path.join(git_path, 'Cargo.lo
 # to run the appropriate update command.
 for package_name in lock_file.packages:
     if lock_file.packages[package_name].upgrade_available:
-        run_cargo_update(lock_file.packages[package_name])
+        run_cargo_update.run_update(git_path, lock_file.packages[package_name])
 
 # Push the updates to origin/branch_name
 repo_management.push(git_path, branch_name, 'Updated dependencies')
