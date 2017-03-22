@@ -1,10 +1,8 @@
 # Cargo Upgrade Service Project
 NC State CSC517: Object-Oriented Design and Development
 
-Chris Brown (dcbrow10@ncsu.edu)
-
-Bradford Ingersoll (bingers@ncsu.edu)
-
+Chris Brown (dcbrow10@ncsu.edu)  
+Bradford Ingersoll (bingers@ncsu.edu)  
 Qiufeng Yu (qyu4@ncsu.edu)
 
 
