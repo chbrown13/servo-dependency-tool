@@ -39,12 +39,12 @@ with open(os.path.join(git_path, '.gitignore'), "r") as f:
         if line == 'servo-dependency-tool/':
             tool_ignored = True
 if not tool_ignored:
-    print('Adding servo-dependency-tool/ to .gitignore...')
+    print('Adding /servo-dependency-tool to .gitignore...')
     print('')
     with open(os.path.join(git_path, '.gitignore'), "a") as f:
         f.write('\n')
         f.write('# Servo Dependency Tool\n')
-        f.write('servo-dependency-tool/')
+        f.write('/servo-dependency-tool')
 
 # Check for existence of Cargo.lock file and parse it
 for filename in os.listdir(git_path):
@@ -55,10 +55,13 @@ for filename in os.listdir(git_path):
 
 # Ignore hyper dependencies per Josh Matthews: "Can't update hyper without additional work"
 # Do so by removing it from the collection
+package_names_to_ignore = []
 for package_name in lock_file.packages:
     if package_name.startswith('hyper'):
-        print('Removing %s from packages to update...' % package_name)
-        del lock_file.packages[package_name]
+        package_names_to_ignore.append(package_name)
+for name in package_names_to_ignore:
+    print('Removing %s from packages to update...' % name)
+    del lock_file.packages[name]
 print('')
 
 # Run crates_io_checker which determines the latest version for all packages in lock_file.packages
