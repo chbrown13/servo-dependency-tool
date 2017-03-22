@@ -61,7 +61,7 @@ for package_name in lock_file.packages:
         package_names_to_ignore.append(package_name)
 for name in package_names_to_ignore:
     print('Removing %s from packages to update...' % name)
-    del lock_file.packages[package_name]
+    del lock_file.packages[name]
 print('')
 
 # Run crates_io_checker which determines the latest version for all packages in lock_file.packages
