@@ -1,3 +1,4 @@
 .idea/
 sample_test/crates.io-index/
 sample_test/__pycache__/
+*.pyc
