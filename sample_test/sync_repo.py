@@ -2,8 +2,7 @@ from git import Repo, Remote
 from github3 import login
 import git
 import traceback
-import os
-import datetime
+import getpass
 
 
 # Function that takes the local git clone directory path and the new branch name as parameters
@@ -45,10 +44,15 @@ def pull_request(username, password, title, base, head, body=None):
     # Login to the forked repo
     gh = login(username, password)
     # Create a Repository instance of servo (with owner Servo and repo name servo)
-    repo = gh.repository("Servo", "servo")
+    repo = gh.repository("totallybradical", "temp_servo2")
     # Now create the pull request
     repo.create_pull(title, base, head, body)
     # :param str title: (required) The title of the pull request.
     # :param str base: (required), The branch of the servo repo which you want the changes pulled into. e.g., 'master'
     # :param str head: (required), The place where your changes are implemented. e.g. 'qiufengyu21:master'
     # :param str body: (optional), The contents of the pull request.
+
+print('Initiating pull request...')
+github_username = input('GitHub Username: ')
+github_password = getpass.getpass('GitHub Password: ')
+pull_request(github_username, github_password, 'Pull Request: Updated Dependencies', 'master', 'temp_servo2:2017_03_21_16_39_26_crate_update')

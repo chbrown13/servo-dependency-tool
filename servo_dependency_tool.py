@@ -1,4 +1,5 @@
 import datetime
+import getpass
 import os
 import shutil
 import subprocess
@@ -107,4 +108,9 @@ for package_name in lock_file.packages:
 repo_management.push(git_path, branch_name, 'Updated dependencies')
 
 # Pull request on master
-
+print('Initiating pull request...')
+gh_username = input('GitHub Username: ')
+gh_password = getpass.getpass('GitHub Password: ')
+title = 'Pull Request: Updated Dependencies'
+desc = 'Pull request containing Cargo.toml files and a Cargo.lock file with the most recent dependency versions'
+repo_management.pull_request(gh_username, gh_password, title, 'master', gh_username + ':' + branch_name, desc)
