@@ -47,8 +47,7 @@ for filename in os.listdir(git_path):
     if filename == "Cargo.lock":
         lock_file = cargo_lock_parser.lock_file_parse(os.path.join(git_path, filename))
 
-# *** This is temporary code.
-# It prints out what was parsed to ensure the parsing and the objects are getting the intended information
+# Run crates_io_checker which determines the latest version for all packages in lock_file.packages
 print(lock_file.root.name, lock_file.root.version)
 crates_io_checker.clone_crates()
 for package_name in lock_file.packages:
