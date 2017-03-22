@@ -17,8 +17,8 @@ The **Servo Dependency Tool** is a set of python scripts that automatically upgr
 ### Prerequisites
 - [Servo web engine](https://github.com/servo/servo)
 - [Python3](https://www.python.org/download/releases/3.0/)
-### Installing [GitPython](https://github.com/gitpython-developers/GitPython) and [github3.py](https://github.com/sigmavirus24/github3.py)
-The Servo Dependency Tool requires two external libraries in order to interact with the Servo github, push lastest dependencies and open pull requests.
+### Installing GitPython and github3.py
+The Servo Dependency Tool requires two external libraries([GitPython](https://github.com/gitpython-developers/GitPython) and [github3.py](https://github.com/sigmavirus24/github3.py)) in order to interact with the Servo github, push lastest dependencies and open pull requests.
 - Install GitPython
 ```
      python3 -m pip install gitpython
@@ -27,6 +27,8 @@ The Servo Dependency Tool requires two external libraries in order to interact w
 ```
      python3 -m pip install github3.py
 ```
+### Run
+The tool has 5 
 cargo_lock_parser, cargo_toml_parser, crates_io_checker, repo_management, and servo_dependency_tool
 servo_dependency_tool is the driver file
 
