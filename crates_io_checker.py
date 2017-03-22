@@ -5,7 +5,7 @@ import platform
 import json
 
 CRATES = "crates.io-index"
-packages = ["winapi-build", "log", "z3", "tpst"]  # TODO: LockPackage objects from cargo_lock_dependency_parse.py
+
 depend = {}
 
 
