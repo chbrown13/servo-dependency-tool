@@ -9,7 +9,7 @@ from cargo_lock_parser import LockPackage
 class TestCratesIOChecker(unittest.TestCase):
 
 	def setUp(self):
-		self.path = path + "/servo_test/"
+		self.path = os.path.join(path,"servo_test")
 
 		self.package = LockPackage()
 		self.package.name = "unittest"
