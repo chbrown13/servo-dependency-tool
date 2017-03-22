@@ -88,6 +88,7 @@ repo_management.push(git_path, branch_name, 'Updated dependencies')
 print('Initiating pull request...')
 gh_username = input('GitHub Username: ')
 gh_password = getpass.getpass('GitHub Password: ')
-title = 'Pull Request: Updated Dependencies'
-desc = 'Pull request containing Cargo.toml files and a Cargo.lock file with the most recent dependency versions'
+title = 'Updated dependencies in Cargo.toml files to latest versions'
+desc = 'Updated all Cargo.toml files with the latest versions found on crates.io for all dependencies and ran \
+       "./mach cargo-update -p <package_name> for each'
 repo_management.pull_request(gh_username, gh_password, title, 'master', gh_username + ':' + branch_name, desc)

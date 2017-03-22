@@ -22,14 +22,16 @@ def toml_file_update(fname, lock_file):
                         in_dependencies = False
                 elif in_dependencies:
                     dependency_name = line.split(' ')[0]
-                    if dependency_name in lock_file.packages:  # Check if package exists
-                        if lock_file.packages[dependency_name].upgrade_available:  # Check if upgrade was found
-                            if len(line.split(' ')) == 3:  # Line with format: <package> = "<version>"
-                                version_string = '"' + lock_file.packages[dependency_name].version + '"'
-                                line = re.sub(r'"(.*?)"', version_string, line)
-                            elif 'version = "' in line:
-                                version_string = 'version = "' + lock_file.packages[dependency_name].version + '"'
-                                line = re.sub(r'version = "(.*?)"', version_string, line)
+                    # Ignore hyper dependencies per Josh Matthews: "Can't update hyper without additional work"
+                    if not dependency_name.startswith('hyper'):
+                        if dependency_name in lock_file.packages:  # Check if package exists
+                            if lock_file.packages[dependency_name].upgrade_available:  # Check if upgrade was found
+                                if len(line.split(' ')) == 3:  # Line with format: <package> = "<version>"
+                                    version_string = '"' + lock_file.packages[dependency_name].version + '"'
+                                    line = re.sub(r'"(.*?)"', version_string, line)
+                                elif 'version = "' in line:
+                                    version_string = 'version = "' + lock_file.packages[dependency_name].version + '"'
+                                    line = re.sub(r'version = "(.*?)"', version_string, line)
                 else:
                     in_dependencies = False
             fp.write(line)
