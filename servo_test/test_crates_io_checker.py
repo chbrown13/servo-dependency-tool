@@ -9,8 +9,10 @@ from cargo_lock_parser import LockPackage
 class TestCratesIOChecker(unittest.TestCase):
 
 	def setUp(self):
+		self.path = path + "/servo_test/"
+
 		self.package = LockPackage()
-		self.package.name = "test"
+		self.package.name = "no_package"
 		self.package.version = "1.0"
 		self.package.source = "src"
 
@@ -25,9 +27,21 @@ class TestCratesIOChecker(unittest.TestCase):
 		self.package.source = "test"
 
 		crates.depend = {"servo":[{"name":"servo","vers":"1.0","deps":[]},{"name":"servo","vers":"2.0","deps":[]}]}
+		crates.CRATES = "cargo_test"
 
 	def test_check_upgrade(self):
 		self.assertFalse(crates.check_upgrade(self.package))
 		self.assertTrue(crates.check_upgrade(self.package1))
 		self.assertFalse(crates.check_upgrade(self.package2))
 
+	def test_read_file(self):
+		self.assertIsNone(crates.read_file(None))
+		self.assertFalse('testing' in crates.depend.keys())
+		read = crates.check_folder("testing",os.path.join(self.path,crates.CRATES,"te","st"))
+		self.assertIsNotNone(read)
+		crates.read_file(read)
+		self.assertTrue('testing' in crates.depend.keys())
+
+	def test_check_folder(self):
+		self.assertIsNone(crates.check_folder("test.txt",self.path))
+		self.assertEqual(os.path.join(self.path,"test_crates_io_checker.py"),crates.check_folder("test_crates_io_checker.py",self.path))
