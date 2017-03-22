@@ -24,8 +24,8 @@ The Servo Dependency Tool requires two external libraries in order to interact w
 ```
      python3 -m pip install github3.py
 ```
-
-
+cargo_lock_parser, cargo_toml_parser, crates_io_checker, repo_management, and servo_dependency_tool
+servo_dependency_tool is the driver file
 
 
 
