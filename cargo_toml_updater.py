@@ -23,7 +23,6 @@ def toml_file_update(fname, lock_file):
                 elif in_dependencies:
                     dependency_name = line.split(' ')[0]
                     if dependency_name in lock_file.packages:  # Check if package exists
-                        print(lock_file.packages[dependency_name].upgrade_available)
                         if lock_file.packages[dependency_name].upgrade_available:  # Check if upgrade was found
                             if len(line.split(' ')) == 3:  # Line with format: <package> = "<version>"
                                 version_string = '"' + lock_file.packages[dependency_name].version + '"'
