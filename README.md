@@ -28,7 +28,11 @@ The Servo Dependency Tool requires two external libraries ([GitPython](https://g
      python3 -m pip install github3.py
 ```
 ## Running
-In order to run the tool, first make a local clone of the [Servo](https://github.com/servo/servo) repository, and then run the main driver file: **servo_dependency_tool.py**.
+In order to run the tool, first make a local clone of the [Servo](https://github.com/servo/servo) repository
+```
+     git clone https://github.com/servo/servo.git
+```
+and then run the main driver file: **servo_dependency_tool.py**.
 ```
      python3 servo_dependency_tool.py
 `````
