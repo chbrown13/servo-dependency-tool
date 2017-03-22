@@ -39,12 +39,12 @@ with open(os.path.join(git_path, '.gitignore'), "r") as f:
         if line == 'servo-dependency-tool/':
             tool_ignored = True
 if not tool_ignored:
-    print('Adding servo-dependency-tool/ to .gitignore...')
+    print('Adding /servo-dependency-tool to .gitignore...')
     print('')
     with open(os.path.join(git_path, '.gitignore'), "a") as f:
         f.write('\n')
         f.write('# Servo Dependency Tool\n')
-        f.write('servo-dependency-tool/*')
+        f.write('/servo-dependency-tool')
 
 # Check for existence of Cargo.lock file and parse it
 for filename in os.listdir(git_path):
