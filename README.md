@@ -36,5 +36,6 @@ The tool will first do a git pull command to get the latest fork of the Servo re
 
 **For more detailed instructions on how to use this tool, please click on the video on the top.**
 
-## Issue Tracker: https://github.com/servo/servo/issues/15600
-## Servo Wiki page: https://github.com/servo/servo/wiki/Cargo-upgrade-service-project
+[Issue Tracker](https://github.com/servo/servo/issues/15600)
+
+[Servo Wiki page](https://github.com/servo/servo/wiki/Cargo-upgrade-service-project)
