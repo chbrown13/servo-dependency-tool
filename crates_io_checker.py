@@ -3,6 +3,7 @@ import git
 import os
 import platform
 import json
+import repo_management
 
 CRATES = "crates.io-index"
 
@@ -91,12 +92,12 @@ def check_package(package):
 
 def clone_crates():
     try:
-        print("Cloning crates.io-index repository...(This may take a while)")
+        print("Cloning crates.io-index repository...(This may take a while)") # Git submodules may avoid this
         repo = Repo.clone_from("https://github.com/rust-lang/crates.io-index.git", CRATES)
     except git.exc.GitCommandError:
         # crates.io-index repo already exists
-        #  TODO: pull latest version
-        repo = Repo(CRATES)
+        git_path = os.path.abspath(os.path.join(os.path.dirname((CRATES)),CRATES))
+        repo_management.pull(git_path)
 
 
 def check(p):
