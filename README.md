@@ -10,9 +10,20 @@ The **Servo Dependency Tool** is a set of python scripts that automatically upgr
 ## Background Information
 [Servo](https://github.com/servo/servo) is a prototype web browser engine written in the Rust language. It is currently developed on 64bit OS X, 64bit Linux, and Android. Servo depends on numerous other Rust libraries that are published on [the package manager crates.io](https://crates.io/). There are no notifications for when packages are updated; it's up to developers to keep track of when they need to upgrade their dependencies. The goal of the Servo Dependency Tool is to automatically upgrade Servo's dependencies whenever new versions are released.
 
-
-
-
+## Installation
+### Prerequisites
+- [Servo web engine](https://github.com/servo/servo)
+- [Python3](https://www.python.org/download/releases/3.0/)
+### Installing [GitPython](https://github.com/gitpython-developers/GitPython) and [github3.py](https://github.com/sigmavirus24/github3.py)
+The Servo Dependency Tool requires two external libraries in order to interact with the Servo github, push lastest dependencies and open pull requests.
+- Install GitPython
+```
+     python3 -m pip install gitpython
+```
+- Install github3.py
+```
+     python3 -m pip install github3.py
+```
 
 
 
