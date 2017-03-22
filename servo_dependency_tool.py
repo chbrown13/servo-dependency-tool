@@ -41,11 +41,16 @@ if not tool_ignored:
         f.write('# Servo Dependency Tool\n')
         f.write('servo-dependency-tool/')
 
-# This code iterates through all the files in the current directory and calls lock_file_parse
-# when the "Cargo.lock" file is found
+# Check for existence of Cargo.lock file and parse it
 for filename in os.listdir(git_path):
     if filename == "Cargo.lock":
         lock_file = cargo_lock_parser.lock_file_parse(os.path.join(git_path, filename))
+
+# Ignore hyper dependencies per Josh Matthews: "Can't update hyper without additional work"
+# Do so by removing it from the collection
+for package_name in lock_file.packages:
+    if package_name.startswith('hyper'):
+        del lock_file.packages[package_name]
 
 # Run crates_io_checker which determines the latest version for all packages in lock_file.packages
 print(lock_file.root.name, lock_file.root.version)
