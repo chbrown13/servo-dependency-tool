@@ -19,4 +19,11 @@ class TestCargoTOMLUpdater(unittest.TestCase):
 
 	def test_toml_file_update(self):
 		updater.toml_file_update("Cargo.toml",self.lock_file)
+		with open("Cargo.toml",'r') as f:
+			update = f.read()
+		self.assertNotEqual(self.original,update)
+
+	def tearDown(self):
+		with open("Cargo.toml",'w') as f:
+			f.write(self.original)
 		
